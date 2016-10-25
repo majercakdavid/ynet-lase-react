@@ -17,8 +17,8 @@ class App extends Component {
       items: null,
       query: "",
       host: "",
-      content_type: "",
-      file_type: "",
+      content_type: "all",
+      file_type: "all",
       size_from: "",
       size_to: "",
       page: "",
@@ -39,7 +39,13 @@ class App extends Component {
       headers: headers
     };
 
-    fetch(`http://lase.ynet.sk:5000/api/search?query=ocelova+past&host=&content_type=all&file_type=all&size_from=&size_to=&page=3`)
+    fetch("http://lase.ynet.sk:5000/api/search?query="+this.state.query +
+    "&host=" + this.state.host +
+    "&content_type=" + this.state.content_type +
+    "&file_type=" + this.state.file_type +
+    "&size_from=" + this.state.size_from +
+    "&size_to=" + this.state.size_to +
+    "&page=" + this.state.page)
       .then(response => {
         if (response.ok) {
           response.json().then(result => {
