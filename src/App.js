@@ -39,18 +39,18 @@ class App extends Component {
       headers: headers
     };
 
-    fetch("http://lase.ynet.sk:5000/api/search?query="+this.state.query +
-    "&host=" + this.state.host +
-    "&content_type=" + this.state.content_type +
-    "&file_type=" + this.state.file_type +
-    "&size_from=" + this.state.size_from +
-    "&size_to=" + this.state.size_to +
-    "&page=" + this.state.page)
+    fetch("http://lase.ynet.sk:5000/api/search?query=" + this.state.query +
+      "&host=" + this.state.host +
+      "&content_type=" + this.state.content_type +
+      "&file_type=" + this.state.file_type +
+      "&size_from=" + this.state.size_from +
+      "&size_to=" + this.state.size_to +
+      "&page=" + this.state.page)
       .then(response => {
         if (response.ok) {
           response.json().then(result => {
             console.log(result);
-            _this.setState({ total_item: result.total, items: result.items });
+            _this.setState({ total_items: result.data.total, items: result.data.items });
           });
         } else {
           console.log('Network response was not ok.');
@@ -62,22 +62,56 @@ class App extends Component {
   }
 
   render() {
-    return(
-    <div>
-      <form id="send_message_form">
-        <div className="form-group">
-          <label>Hľadaný výraz</label>
-          <input name="search_query" type="text" placeholder="Hľadaný výraz" value={this.state.query} onChange={this._handleFormChange.bind(this)} required />
+    var results = null;
+    var totalItems = null;
+    if(this.state.items){
+      results = JSON.stringify(this.state.items);
+      totalItems = JSON.stringify(this.state.total_items);
+    } 
+
+    return (
+      <div>
+        <form id="send_message_form">
+          <div className="form-group">
+            <label>Hľadaný výraz</label>
+            <input name="query" type="text" placeholder="Hľadaný výraz" value={this.state.query} onChange={this._handleFormChange.bind(this)} required />
+          </div>
+          <div className="form-group">
+            <label>Typ Obsahu</label>
+            <select name="content_type" value={this.state.content_type} onChange={this._handleFormChange.bind(this)} >
+              <option value="all">Všetko</option>
+              <option value="video">Videá</option>
+              <option value="music">Hudba</option>
+              <option value="img">Obrázky</option>
+              <option value="document">Dokumenty</option>
+              <option value="application">Aplikácie</option>
+              <option value="iso">ISO</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Typ súboru</label>
+            <select name="file_type" value={this.state.file_type} onChange={this._handleFormChange.bind(this)} >
+              <option value="all">Všetko</option>
+              <option value="directory">Priečinky</option>
+              <option value="file">Súbory</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Minimálna veľkosť</label>
+            <input name="size_from" type="number" value={this.state.size_from} onChange={this._handleFormChange.bind(this)} />
+          </div>
+          <div className="form-group">
+            <label>Maximálnaveľkosť</label>
+            <input name="size_to" type="number" value={this.state.size_to} onChange={this._handleFormChange.bind(this)} />
+          </div>
+          <div className="form-actions">
+            <input name="request_query" type="button" onClick={this._initiateSearch.bind(this)} value="Hľadaj" />
+          </div>
+        </form>
+        <div id="results">  
+          { results }
         </div>
-        <div className="form-group">
-          <label>Maximálna veľkosť</label>
-          <input name="search_query" type="text" placeholder="Hľadaný výraz" value={this.state.max_size} onChange={this._handleFormChange.bind(this)} required />
-        </div>
-        <div className="form-actions">
-          <input name="send_error_data_button" type="button" className="btn btn-form btn-negative" onClick={this._initiateSearch.bind(this)} value="Search" />
-        </div>
-      </form>
-    </div>
+      </div>
     );
   }
 }
