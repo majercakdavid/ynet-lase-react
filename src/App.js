@@ -71,12 +71,12 @@ class App extends Component {
 
     return (
       <div>
-        <form id="send_message_form">
-          <div className="form-group">
+        <form>
+          <div>
             <label>Hľadaný výraz</label>
             <input name="query" type="text" placeholder="Hľadaný výraz" value={this.state.query} onChange={this._handleFormChange.bind(this)} required />
           </div>
-          <div className="form-group">
+          <div>
             <label>Typ Obsahu</label>
             <select name="content_type" value={this.state.content_type} onChange={this._handleFormChange.bind(this)} >
               <option value="all">Všetko</option>
@@ -88,7 +88,7 @@ class App extends Component {
               <option value="iso">ISO</option>
             </select>
           </div>
-          <div className="form-group">
+          <div>
             <label>Typ súboru</label>
             <select name="file_type" value={this.state.file_type} onChange={this._handleFormChange.bind(this)} >
               <option value="all">Všetko</option>
@@ -96,15 +96,15 @@ class App extends Component {
               <option value="file">Súbory</option>
             </select>
           </div>
-          <div className="form-group">
+          <div>
             <label>Minimálna veľkosť</label>
             <input name="size_from" type="number" value={this.state.size_from} onChange={this._handleFormChange.bind(this)} />
           </div>
-          <div className="form-group">
+          <div>
             <label>Maximálnaveľkosť</label>
             <input name="size_to" type="number" value={this.state.size_to} onChange={this._handleFormChange.bind(this)} />
           </div>
-          <div className="form-actions">
+          <div>
             <input name="request_query" type="button" onClick={this._initiateSearch.bind(this)} value="Hľadaj" />
           </div>
         </form>
