@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import Result from './Result';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -49,7 +50,6 @@ class App extends Component {
       .then(response => {
         if (response.ok) {
           response.json().then(result => {
-            console.log(result);
             _this.setState({ total_items: result.data.total, items: result.data.items });
           });
         } else {
@@ -65,8 +65,9 @@ class App extends Component {
     var results = null;
     var totalItems = null;
     if(this.state.items){
-      results = JSON.stringify(this.state.items);
-      totalItems = JSON.stringify(this.state.total_items);
+      results = this.state.items.map((item, i)=>{
+        <Result key={i} item={item} />
+      });
     } 
 
     return (
@@ -108,9 +109,7 @@ class App extends Component {
             <input name="request_query" type="button" onClick={this._initiateSearch.bind(this)} value="Hľadaj" />
           </div>
         </form>
-        <div id="results">  
-          { results }
-        </div>
+        { results }
       </div>
     );
   }
