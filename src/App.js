@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import Result from './Result';
+import Results from './Results';
+import SearchForm from './SearchForm';
 
+// NEEDED FOR REDUX-FORMS
+import { createStore, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
+const reducers = {
+  form: formReducer
+}
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
+
+// NEEDED FORM MATERIAL-UI
+import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -27,6 +39,10 @@ class App extends Component {
   }
 
   _handleFormChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  _handleFormSubmit(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
@@ -62,17 +78,19 @@ class App extends Component {
   }
 
   render() {
-    var results = null;
-    var totalItems = null;
-    if(this.state.items){
-      results = this.state.items.map((item, i)=>{
-        <Result key={i} item={item} />
-      });
-    } 
-
     return (
       <div>
-        <form>
+        <SearchForm handleSubmit={this._handleFormSubmit}/>
+        <Results items={this.state.items}/>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+/*
+<form>
           <div>
             <label>Hľadaný výraz</label>
             <input name="query" type="text" placeholder="Hľadaný výraz" value={this.state.query} onChange={this._handleFormChange.bind(this)} required />
@@ -109,10 +127,4 @@ class App extends Component {
             <input name="request_query" type="button" onClick={this._initiateSearch.bind(this)} value="Hľadaj" />
           </div>
         </form>
-        { results }
-      </div>
-    );
-  }
-}
-
-export default App;
+*/
