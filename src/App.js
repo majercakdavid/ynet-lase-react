@@ -28,13 +28,7 @@ class App extends Component {
     this.state = {
       total_items: 0,
       items: null,
-      query: "",
-      host: "",
-      content_type: "all",
-      file_type: "all",
-      size_from: "",
-      size_to: "",
-      page: "",
+      page: ""
     };
   }
 
@@ -42,11 +36,7 @@ class App extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  _handleFormSubmit(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  _initiateSearch() {
+  _initiateSearch(options) {
     // Create an empty Headers instance
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -57,12 +47,12 @@ class App extends Component {
     };
 
     fetch("http://lase.ynet.sk:5000/api/search?query=" + this.state.query +
-      "&host=" + this.state.host +
-      "&content_type=" + this.state.content_type +
-      "&file_type=" + this.state.file_type +
-      "&size_from=" + this.state.size_from +
-      "&size_to=" + this.state.size_to +
-      "&page=" + this.state.page)
+      "&host=" + options.host +
+      "&content_type=" + options.content_type +
+      "&file_type=" + options.file_type +
+      "&size_from=" + options.size_from +
+      "&size_to=" + options.size_to +
+      "&page=" + options.page)
       .then(response => {
         if (response.ok) {
           response.json().then(result => {
@@ -80,7 +70,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SearchForm handleSubmit={this._handleFormSubmit}/>
+        <SearchForm onSubmit={this._initiateSearch}/>
         <Results items={this.state.items}/>
       </div>
     );

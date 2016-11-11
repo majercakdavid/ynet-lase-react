@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import TextField from 'material-ui/TextField/TextField'
 import RadioButton from 'material-ui/RadioButton/RadioButton'
 import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup'
@@ -7,25 +7,25 @@ import SelectField from 'material-ui/SelectField/SelectField'
 import MenuItem from 'material-ui/MenuItem/MenuItem'
 
 var _this;
-class SearchForm extends React.Component {
+class SearchForm extends Component {
   constructor() {
     super();
     _this = this;
+    this.propTypes = {
+      onSubmit: React.PropTypes.func
+    }
     this.state = {
-      total_items: 0,
-      items: null,
       query: "",
       host: "",
       content_type: "all",
       file_type: "all",
       size_from: "",
-      size_to: "",
-      page: "",
+      size_to: ""
     };
   }
 
-  _handleSubmit(e){
-
+  _handleSubmit(e) {
+    this.props.onSubmit(this.state);
   }
 
   // Handles changes in the state of the page
@@ -88,15 +88,15 @@ class SearchForm extends React.Component {
               floatingLabelText="Typ súboru"
               onChange={this._handleFormChange.bind(this)}>
               <MenuItem
-                value={'all'}
+                value={"all"}
                 primaryText="Všetko"
                 />
               <MenuItem
-                value={'directory'}
+                value={"directory"}
                 primaryText="Priečinky"
                 />
               <MenuItem
-                value={'file'}
+                value={"file"}
                 primaryText="Súbory"
                 />
             </SelectField>
