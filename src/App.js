@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import Results from './Results';
 import SearchForm from './SearchForm';
-
-// NEEDED FOR REDUX-FORMS
-import { createStore, combineReducers } from 'redux'
-import { reducer as formReducer } from 'redux-form'
-
-const reducers = {
-  form: formReducer
-}
-const reducer = combineReducers(reducers)
-const store = createStore(reducer)
+import './App.scss';
 
 // NEEDED FORM MATERIAL-UI
 import injectTapEventPlugin from 'react-tap-event-plugin';

@@ -13,9 +13,13 @@ import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
 var _this;
 
 class Results extends Component {
-    static propTypes = {
-        items: PropTypes.array
+    constructor() {
+        super();
+        this.propTypes = {
+            items: PropTypes.array
+        };
     }
+
     render() {
         var items = null;
         if (this.props.items) {
