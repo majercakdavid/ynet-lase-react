@@ -33,18 +33,18 @@ class App extends Component {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    this.requestOptions = {
+    var requestOptions = {
       method: 'GET',
       headers: headers
     };
 
-    fetch("http://lase.ynet.sk:5000/api/search?query=" + this.state.query +
+    fetch("http://lase.ynet.sk:5000/api/search?query=" + options.query +
       "&host=" + options.host +
       "&content_type=" + options.content_type +
       "&file_type=" + options.file_type +
       "&size_from=" + options.size_from +
       "&size_to=" + options.size_to +
-      "&page=" + options.page)
+      "&page=" + options.page, requestOptions)
       .then(response => {
         if (response.ok) {
           response.json().then(result => {

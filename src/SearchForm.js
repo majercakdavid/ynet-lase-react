@@ -20,11 +20,13 @@ class SearchForm extends Component {
       content_type: "all",
       file_type: "all",
       size_from: "",
-      size_to: ""
+      size_to: "",
+      page: 1
     };
   }
 
   _handleSubmit(e) {
+    e.preventDefault();
     this.props.onChange(this.state);
   }
 
