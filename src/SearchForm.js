@@ -8,12 +8,12 @@ import MenuItem from 'material-ui/MenuItem/MenuItem'
 
 var _this;
 class SearchForm extends Component {
+  static propTypes = {
+    onSubmit: React.PropTypes.func
+  }
   constructor() {
     super();
     _this = this;
-    this.propTypes = {
-      onSubmit: React.PropTypes.func
-    }
     this.state = {
       query: "",
       host: "",

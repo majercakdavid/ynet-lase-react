@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Results from './Results';
+import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 
 
