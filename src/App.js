@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-=======
 import HomePage from './HomePage';
->>>>>>> 2ff09ece26de626690a4e7e89856ae741c9fc71d
 import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 import './styles/styles.scss';

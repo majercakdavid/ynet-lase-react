@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 
-
 // NEEDED FORM MATERIAL-UI
 import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
