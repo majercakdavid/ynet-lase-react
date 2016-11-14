@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Results from './Results';
+import HomePage from './HomePage';
+import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 import './App.scss';
 
@@ -59,7 +60,7 @@ class App extends Component {
   }
 
   render() {
-    var diplay = <HomePage onChange={this._initiateSearch} />;
+    var display = <HomePage onChange={this._initiateSearch} />;
     if (this.state.items > 0) {
       display = <ResultsPage onChange={this._initiateSearch} items={this.state.items} />
     }
