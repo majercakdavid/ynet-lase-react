@@ -59,53 +59,16 @@ class App extends Component {
   }
 
   render() {
+    var diplay = <HomePage onChange={this._initiateSearch} />;
+    if (this.state.items > 0) {
+      display = <ResultsPage onChange={this._initiateSearch} items={this.state.items} />
+    }
     return (
       <div>
-        <SearchForm onSubmit={this._initiateSearch}/>
-        <Results items={this.state.items}/>
+        {display}
       </div>
     );
   }
 }
 
 export default App;
-
-/*
-<form>
-          <div>
-            <label>Hľadaný výraz</label>
-            <input name="query" type="text" placeholder="Hľadaný výraz" value={this.state.query} onChange={this._handleFormChange.bind(this)} required />
-          </div>
-          <div>
-            <label>Typ Obsahu</label>
-            <select name="content_type" value={this.state.content_type} onChange={this._handleFormChange.bind(this)} >
-              <option value="all">Všetko</option>
-              <option value="video">Videá</option>
-              <option value="music">Hudba</option>
-              <option value="img">Obrázky</option>
-              <option value="document">Dokumenty</option>
-              <option value="application">Aplikácie</option>
-              <option value="iso">ISO</option>
-            </select>
-          </div>
-          <div>
-            <label>Typ súboru</label>
-            <select name="file_type" value={this.state.file_type} onChange={this._handleFormChange.bind(this)} >
-              <option value="all">Všetko</option>
-              <option value="directory">Priečinky</option>
-              <option value="file">Súbory</option>
-            </select>
-          </div>
-          <div>
-            <label>Minimálna veľkosť</label>
-            <input name="size_from" type="number" value={this.state.size_from} onChange={this._handleFormChange.bind(this)} />
-          </div>
-          <div>
-            <label>Maximálnaveľkosť</label>
-            <input name="size_to" type="number" value={this.state.size_to} onChange={this._handleFormChange.bind(this)} />
-          </div>
-          <div>
-            <input name="request_query" type="button" onClick={this._initiateSearch.bind(this)} value="Hľadaj" />
-          </div>
-        </form>
-*/

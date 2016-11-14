@@ -25,7 +25,7 @@ class SearchForm extends Component {
   }
 
   _handleSubmit(e) {
-    this.props.onSubmit(this.state);
+    this.props.onChange(this.state);
   }
 
   // Handles changes in the state of the page
