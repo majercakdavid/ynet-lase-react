@@ -37,13 +37,18 @@ class SearchForm extends Component {
     return (
       <form onSubmit={this._handleSubmit.bind(this)}>
         <div>
+        <TextField
+      hintText="Custom Underline Focus Color"
+      
+    />
           <TextField
             name="query"
             value={this.state.query}
             hintText="Hľadaný výraz"
             floatingLabelText="Hľadaný výraz"
             onChange={this._handleFormChange.bind(this)}
-            />
+            underlineStyle="borderColor: orange500"
+          />
         </div>
         <div>
           <RadioButtonGroup

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Results from './Results';
 import SearchForm from './SearchForm';
-import './App.scss';
+import './styles/styles.scss';
 
 // NEEDED FORM MATERIAL-UI
 import injectTapEventPlugin from 'react-tap-event-plugin';
