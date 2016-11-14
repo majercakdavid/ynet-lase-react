@@ -46,10 +46,13 @@ class Results extends Component {
             ));
         }
         return (
-            <List>
-                <Subheader inset={true}>Folders</Subheader>
-                {items}
-            </List>);
+            <div>
+                <SearchForm onChange={this.props.onChange}/>
+                <List>
+                    <Subheader inset={true}>Folders</Subheader>
+                    {items}
+                </List>
+            </div>);
     }
 }
 
