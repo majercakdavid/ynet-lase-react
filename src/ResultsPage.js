@@ -9,16 +9,15 @@ import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import { blue500, yellow600, darkBlack } from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
 
+import SearchForm from './SearchForm';
+
 // Needed as the reference to this object inside event handlers
 var _this;
 
 class Results extends Component {
-    constructor() {
-        super();
-        this.propTypes = {
-            items: PropTypes.array
-        };
-    }
+    static propTypes = {
+        items: PropTypes.array
+    };
 
     render() {
         var items = null;
@@ -47,7 +46,7 @@ class Results extends Component {
         }
         return (
             <div>
-                <SearchForm onChange={this.props.onChange}/>
+                <SearchForm onChange={this.props.onChange} />
                 <List>
                     <Subheader inset={true}>Folders</Subheader>
                     {items}
