@@ -6,12 +6,6 @@ import SearchForm from './SearchForm';
 import MockedResults from './mock_service/MockedResults';
 import './styles/styles.scss';
 
-// NEEDED FORM MATERIAL-UI
-import injectTapEventPlugin from 'react-tap-event-plugin';
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
-
 // Needed as the reference to this object inside event handlers
 var _this;
 
