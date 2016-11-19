@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import HomePage from './HomePage';
 import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
+import MockedResults from './mock_service/MockedResults';
 import './styles/styles.scss';
 
 // NEEDED FORM MATERIAL-UI
-/*import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-*/
+
 // Needed as the reference to this object inside event handlers
 var _this;
 
@@ -18,56 +19,85 @@ class App extends Component {
     constructor() {
         super();
         _this = this;
+        this.isMock = false;
+        this.requestTimeout = null;
         this.state = {
+            is_query_empty: true,
             total_items: 0,
             items: [],
             page: ""
         };
     }
 
-    _handleFormChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+    _checkAndUpdate(JSONResult, callback) {
+        // Render the results only in the case that the query was not changed in a mean time while waiting for the fetch response
+        if (!_this.state.is_query_empty) {
+            _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
+        }
     }
 
     _initiateSearch(options) {
-        // Create an empty Headers instance
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        if (options.query.length === 0) {
+            _this.setState({ total_items: 0, items: [], is_query_empty: true });
+        } else {
+            // Change state of the App component so the query is no more empty
+            _this.setState({ is_query_empty: false });
+            if (_this.isMock) {
+                return setTimeout(() => {
+                    _this._checkAndUpdate({ total_items: 3, items: MockedResults });
+                }, 200);
+            } else {
+                // Create an empty Headers instance
+                var headers = new Headers();
+                headers.append('Content-Type', 'application/json');
 
-        var requestOptions = {
-            method: 'GET',
-            headers: headers
-        };
-
-        fetch("http://lase.ynet.sk:5000/api/search?query=" + options.query +
-            "&host=" + options.host +
-            "&content_type=" + options.content_type +
-            "&file_type=" + options.file_type +
-            "&size_from=" + options.size_from +
-            "&size_to=" + options.size_to +
-            "&page=" + options.page, requestOptions)
-            .then(response => {
-                if (response.ok) {
-                    response.json().then(result => {
-                        _this.setState({ total_items: result.data.total, items: result.data.items });
+                var requestOptions = {
+                    method: 'GET',
+                    headers: headers
+                };
+                fetch("http://lase.ynet.sk:5000/api/search?query=" + options.query +
+                    "&host=" + options.host +
+                    "&content_type=" + options.content_type +
+                    "&file_type=" + options.file_type +
+                    "&size_from=" + options.size_from +
+                    "&size_to=" + options.size_to +
+                    "&page=" + options.page, requestOptions)
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(result => {
+                                _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items }, () => {
+                                    console.log("view updated");
+                                    _this.lookupStarted = false;
+                                });
+                            });
+                        } else {
+                            console.log('Network response was not ok.');
+                        }
+                    })
+                    .catch(error => {
+                        console.log('There has been a problem with your fetch operation: ' + error.message);
                     });
-                } else {
-                    console.log('Network response was not ok.');
-                }
-            })
-            .catch(error => {
-                console.log('There has been a problem with your fetch operation: ' + error.message);
-            });
+            }
+        }
     }
 
     render() {
-        var display = <HomePage onChange={this._initiateSearch} />;
+        var display = <HomePage />;
+        var contentClass = "content";
+        var blockClass = "block";
         if (this.state.items.length > 0) {
-            display = <ResultsPage onChange={this._initiateSearch} items={this.state.items} />
+            display = <ResultsPage items={this.state.items} />
+            contentClass = "";
+            blockClass = "";
         }
         return (
             //<Helmet title="Lase - Ynet"/>
             <div>
+                <div className={contentClass}>
+                    <div className={blockClass}>
+                        <SearchForm onChange={this._initiateSearch} />
+                    </div>
+                </div>;
                 {display}
             </div>
         );

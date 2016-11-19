@@ -18,11 +18,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div className="content">
-      <div className="block">
-        <SearchForm onChange={this.props.onChange} />
-      </div>
-      </div>
+      <div></div>
     );
   }
 }

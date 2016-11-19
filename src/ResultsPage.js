@@ -39,14 +39,13 @@ class Results extends Component {
                                 <span style={{ color: darkBlack }}>Koncovka: </span>{result.extension}<br />
                             </p>
                         }
-                        secondaryTextLines={6}
+                        secondaryTextLines={2}
                         />
                 </div>
             ));
         }
         return (
             <div>
-                <SearchForm onChange={this.props.onChange} />
                 <List>
                     <Subheader inset={true}>Folders</Subheader>
                     {items}

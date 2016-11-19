@@ -5,7 +5,7 @@ import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup'
 import Checkbox from 'material-ui/Checkbox/Checkbox'
 import SelectField from 'material-ui/SelectField/SelectField'
 import MenuItem from 'material-ui/MenuItem/MenuItem'
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import { orange500 } from 'material-ui/styles/colors';
@@ -18,6 +18,7 @@ class SearchForm extends Component {
     constructor() {
         super();
         _this = this;
+        this.liveUpdateTimeout = null;
         this.state = {
             query: "",
             host: "",
@@ -34,9 +35,17 @@ class SearchForm extends Component {
         this.props.onChange(this.state);
     }
 
+    _updateLiveResults() {
+        // Wait while user is typing
+        clearTimeout(_this.liveUpdateTimeout);
+        _this.liveUpdateTimeout = setTimeout(() => {
+            _this.props.onChange(_this.state);
+        }, 500);
+    }
+
     // Handles changes in the state of the page
     _handleFormChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value }, this._updateLiveResults);
     }
 
 
