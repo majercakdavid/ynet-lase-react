@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+//import Helmet from 'react-helmet';
 import HomePage from './HomePage';
 import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 import './styles/styles.scss';
 
 // NEEDED FORM MATERIAL-UI
-import injectTapEventPlugin from 'react-tap-event-plugin';
+/*import injectTapEventPlugin from 'react-tap-event-plugin';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-
+*/
 // Needed as the reference to this object inside event handlers
 var _this;
 
@@ -65,6 +66,7 @@ class App extends Component {
             display = <ResultsPage onChange={this._initiateSearch} items={this.state.items} />
         }
         return (
+            //<Helmet title="Lase - Ynet"/>
             <div>
                 {display}
             </div>

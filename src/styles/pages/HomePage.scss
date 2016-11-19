@@ -1,0 +1,23 @@
+.content {
+    background-image: url('../../static/media/lase-background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    .block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        height: 100vh; 
+        width: 80vw;
+        margin: 0 auto;
+
+        
+    }
+
+}
