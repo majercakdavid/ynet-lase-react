@@ -8,6 +8,8 @@ import FileFolder from 'material-ui/svg-icons/file/folder';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import { blue500, yellow600, darkBlack } from 'material-ui/styles/colors';
 import EditorInsertChart from 'material-ui/svg-icons/editor/insert-chart';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 import SearchForm from './SearchForm';
 
@@ -15,9 +17,25 @@ import SearchForm from './SearchForm';
 var _this;
 
 class Results extends Component {
+    constructor() {
+        super();
+        _this = this;
+        this.state = {
+            show_details_id: -1
+        }
+    }
+
     static propTypes = {
-        items: PropTypes.array
+        items: PropTypes.array,
     };
+
+    handleOpenDetails(id, e, args) {
+        _this.setState({ show_details_id: id });
+    }
+
+    handleCloseDetails() {
+        _this.setState({ show_details_id: -1 });
+    }
 
     render() {
         var items = null;
@@ -27,7 +45,11 @@ class Results extends Component {
                     <Divider inset={true} />
                     <ListItem
                         leftAvatar={<Avatar icon={<FileFolder />} />}
-                        rightIcon={<ActionInfo />}
+                        rightIcon={
+                            <ActionInfo
+                                onClick={this.handleOpenDetails.bind(this, i)}
+                                />
+                        }
                         primaryText={result.filename}
                         secondaryText={
                             <p>
@@ -41,6 +63,30 @@ class Results extends Component {
                         }
                         secondaryTextLines={2}
                         />
+                    <Dialog
+                        title="Dialog With Actions"
+                        actions={
+                            [
+                                <FlatButton
+                                    label="Zatvor"
+                                    primary={true}
+                                    keyboardFocused={true}
+                                    onClick={this.handleCloseDetails}
+                                    />,
+                            ]
+                        }
+                        modal={false}
+                        open={this.state.show_details_id === i}
+                        onRequestClose={this.handleCloseDetails}>
+                        <div>
+                            <span style={{ color: darkBlack }}>Cesta: </span>{result.path}<br />
+                            <span style={{ color: darkBlack }}>Host: </span>{result.host}<br />
+                            <span style={{ color: darkBlack }}>Online: </span>{result.online}<br />
+                            <span style={{ color: darkBlack }}>Veľkosť: </span>{result.size}<br />
+                            <span style={{ color: darkBlack }}>Typ súboru: </span>{result.file_type}<br />
+                            <span style={{ color: darkBlack }}>Koncovka: </span>{result.extension}<br />
+                        </div>
+                    </Dialog>
                 </div>
             ));
         }
