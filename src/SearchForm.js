@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import TextField from 'material-ui/TextField/TextField'
 import RadioButton from 'material-ui/RadioButton/RadioButton'
 import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup'
-import Checkbox from 'material-ui/Checkbox/Checkbox'
 import SelectField from 'material-ui/SelectField/SelectField'
 import MenuItem from 'material-ui/MenuItem/MenuItem'
-import FlatButton from 'material-ui/FlatButton/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import { orange500 } from 'material-ui/styles/colors';
 

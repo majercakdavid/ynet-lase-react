@@ -60,7 +60,6 @@ class App extends Component {
                         if (response.ok) {
                             response.json().then(result => {
                                 _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items }, () => {
-                                    console.log("view updated");
                                     _this.lookupStarted = false;
                                 });
                             });

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ResultsPage from './ResultsPage';
-import SearchForm from './SearchForm';
 
 // Needed as the reference to this object inside event handlers
 var _this;
