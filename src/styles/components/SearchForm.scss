@@ -1,36 +1,41 @@
+body{
+    overflow: hidden;
+}
 .box {
-    width: 100%;
+    .left-box{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        float: left;
+        margin: 20px;
+    }
+
+    .right-box{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        float: left;
+        margin: 20px;
+    }
+}
+
+.search-box {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    
-    .category {
-        display: none; //toto zakomentuj
-        width: 100%;
-        background: yellow;
+    justify-content: center;
+    align-items: center;
+    width: calc(100vw - 155px);
+
+    .logo {
+        background-image: url('../../static/media/lase-logo.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 160px;
+        height: 75px;
     }
     
-    .search-box {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        width: calc(100vw - 155px);
-
-        .logo {
-            background-image: url('../../static/media/lase-logo.png');
-            background-repeat: no-repeat;
-            background-size: contain;
-            width: 160px;
-            height: 75px;
-        }
-
-        .submit-search {
-            min-width: 38px !important;
-        }
+    .submit-search {
+        min-width: 38px !important;
     }
-}
-.settings {
-    display: none; //toto zakomentuj
 }

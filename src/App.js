@@ -4,6 +4,7 @@ import HomePage from './HomePage';
 import ResultsPage from './ResultsPage';
 import SearchForm from './SearchForm';
 import MockedResults from './mock_service/MockedResults';
+import Snackbar from 'material-ui/Snackbar';
 import './styles/styles.scss';
 
 // Needed as the reference to this object inside event handlers
@@ -19,14 +20,26 @@ class App extends Component {
             is_query_empty: true,
             total_items: 0,
             items: [],
-            page: ""
+            page: "",
+            show_snackbar: false
         };
+    }
+
+    _handleToggleSnackbar(showSnackbar, e)
+    {
+        if(showSnackbar)
+            _this.setState({show_snackbar: true});
+        else
+            _this.setState({show_snackbar: false});
     }
 
     _checkAndUpdate(JSONResult, callback) {
         // Render the results only in the case that the query was not changed in a mean time while waiting for the fetch response
         if (!_this.state.is_query_empty) {
-            _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
+            if(JSONResult.total_items === 0)
+                this._handleToggleSnackbar(true, this);
+            else
+                _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
         }
     }
 
@@ -92,6 +105,12 @@ class App extends Component {
                     </div>
                 </div>;
                 {display}
+                <Snackbar
+                        open={this.state.show_snackbar}
+                        message="Žiadne výsledky!"
+                        autoHideDuration={2000}
+                        onRequestClose={this._handleToggleSnackbar.bind(this, false)}
+                        />
             </div>
         );
     }

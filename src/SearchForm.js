@@ -5,8 +5,12 @@ import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup'
 import SelectField from 'material-ui/SelectField/SelectField'
 import MenuItem from 'material-ui/MenuItem/MenuItem'
 import FlatButton from 'material-ui/FlatButton';
+import Popover from 'material-ui/Popover';
 import ActionSearch from 'material-ui/svg-icons/action/search';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 import { orange500 } from 'material-ui/styles/colors';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 
 var _this;
 class SearchForm extends Component {
@@ -24,7 +28,9 @@ class SearchForm extends Component {
             file_type: "all",
             size_from: "",
             size_to: "",
-            page: 1
+            page: 1,
+            show_advanced: false,
+            anchorEl: null
         };
     }
 
@@ -41,11 +47,16 @@ class SearchForm extends Component {
         }, 500);
     }
 
+    _handlePopOverToggle(shouldOpen, e) {
+        if (shouldOpen)
+            _this.setState({ show_advanced: true, anchorEl: e.currentTarget });
+        else
+            _this.setState({ show_advanced: false });
+    }
     // Handles changes in the state of the page
     _handleFormChange(e) {
         this.setState({ [e.target.name]: e.target.value }, this._updateLiveResults);
     }
-
 
     render() {
         const styles = {
@@ -55,106 +66,108 @@ class SearchForm extends Component {
         };
         return (
             <form onSubmit={this._handleSubmit.bind(this)}>
-                <div className="box">
-                    <div className="category">
-                        <RadioButtonGroup
-                            name="content_type"
-                            value={this.state.content_type}
-                            onChange={this._handleFormChange.bind(this)}>
-                            <RadioButton
-                                value="all"
-                                label="Všetko"
-                                />
-                            <RadioButton
-                                value="video"
-                                label="Videá"
-                                />
-                            <RadioButton
-                                value="music"
-                                label="Hudba"
-                                />
-                            <RadioButton
-                                value="img"
-                                label="Obrázky"
-                                />
-                            <RadioButton
-                                value="document"
-                                label="Dokumenty"
-                                />
-                            <RadioButton
-                                value="application"
-                                label="Aplikácie"
-                                />
-                            <RadioButton
-                                value="iso"
-                                label="ISO"
-                                />
-                        </RadioButtonGroup>
-                    </div>
-
-                    <div className="search-box">
-                        <div className="logo"></div>
-                        <TextField
-                            name="query"
-                            value={this.state.query}
-                            hintText="Vyhľadávanie"
-                            className="input-search"
-                            underlineFocusStyle={styles.underlineStyle}
-                            onChange={this._handleFormChange.bind(this)}
-                            />
-                        <div>
-                            <FlatButton
-                                type="submit"
-                                icon={<ActionSearch />}
-                                className="submit-search"
-                                />
+                <Popover
+                    open={this.state.show_advanced}
+                    anchorEl={this.state.anchorEl}
+                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                    targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                    onRequestClose={this._handlePopOverToggle.bind(this, false)}
+                    zDepth={5}
+                    >
+                    <div className="box">
+                        <div className="left-box">
+                            <Subheader>Obsah</Subheader>
+                            <RadioButtonGroup
+                                name="content_type"
+                                onChange={this._handleFormChange.bind(this)}
+                                defaultSelected={this.state.content_type}>
+                                <RadioButton
+                                    value="all"
+                                    label="Všetko"
+                                    />
+                                <RadioButton
+                                    value="video"
+                                    label="Videá"
+                                    />
+                                <RadioButton
+                                    value="music"
+                                    label="Hudba"
+                                    />
+                                <RadioButton
+                                    value="img"
+                                    label="Obrázky"
+                                    />
+                                <RadioButton
+                                    value="document"
+                                    label="Dokumenty"
+                                    />
+                                <RadioButton
+                                    value="application"
+                                    label="Aplikácie"
+                                    />
+                                <RadioButton
+                                    value="iso"
+                                    label="ISO"
+                                    />
+                            </RadioButtonGroup>
                         </div>
-                    </div>
-                </div>
-                <div className="settings">
-
-                    <div>
-                        <div>
-                            <SelectField
+                        <div className="right-box">
+                            <Subheader>Typ Súboru</Subheader>
+                            <RadioButtonGroup
                                 name="file_type"
-                                value={this.state.file_type}
-                                floatingLabelText="Typ súboru"
-                                onChange={this._handleFormChange.bind(this)}>
-                                <MenuItem
-                                    value={"all"}
-                                    primaryText="Všetko"
+                                onChange={this._handleFormChange.bind(this)}
+                                defaultSelected={this.state.file_type}>
+                                <RadioButton
+                                    value="all"
+                                    label="Všetko"
                                     />
-                                <MenuItem
-                                    value={"directory"}
-                                    primaryText="Priečinky"
+                                <RadioButton
+                                    value="directory"
+                                    label="Priečinky"
                                     />
-                                <MenuItem
-                                    value={"file"}
-                                    primaryText="Súbory"
+                                <RadioButton
+                                    value="file"
+                                    label="Súbory"
                                     />
-                            </SelectField>
+                            </RadioButtonGroup>
+                            <TextField
+                                name="size_from"
+                                value={this.state.size_from}
+                                hintText="Minimálna veľkosť"
+                                floatingLabelText="Minimálna veľkosť"
+                                onChange={this._handleFormChange.bind(this)}
+                                />
+                            <TextField
+                                name="size_to"
+                                value={this.state.size_to}
+                                hintText="Maximálna veľkosť"
+                                floatingLabelText="Maximálna veľkosť"
+                                onChange={this._handleFormChange.bind(this)}
+                                />
                         </div>
                     </div>
-                    <div>
-                        <TextField
-                            name="size_from"
-                            value={this.state.size_from}
-                            hintText="Minimálna veľkosť"
-                            floatingLabelText="Minimálna veľkosť"
-                            onChange={this._handleFormChange.bind(this)}
-                            />
-                    </div>
-                    <div>
-                        <TextField
-                            name="size_to"
-                            value={this.state.size_to}
-                            hintText="Maxiimálna veľkosť"
-                            floatingLabelText="Maximálna veľkosť"
-                            onChange={this._handleFormChange.bind(this)}
-                            />
-                    </div>
+                </Popover>
+                <div className="search-box">
+                    <div className="logo"></div>
+                    <TextField
+                        name="query"
+                        value={this.state.query}
+                        hintText="Vyhľadávanie"
+                        className="input-search"
+                        underlineFocusStyle={styles.underlineStyle}
+                        onChange={this._handleFormChange.bind(this)}
+                        />
+                    <FlatButton
+                        type="submit"
+                        icon={<ActionSearch />}
+                        className="submit-search"
+                        />
+                    <FlatButton
+                        icon={<ActionSettings />}
+                        className="submit-search"
+                        onClick={this._handlePopOverToggle.bind(this, true)}
+                        />
                 </div>
-
             </form>
         );
     }

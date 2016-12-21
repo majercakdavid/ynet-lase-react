@@ -9,7 +9,6 @@ import { darkBlack } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton/FlatButton';
-import ActionSearch from 'material-ui/svg-icons/action/search';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 
@@ -53,7 +52,7 @@ class Results extends Component {
                 var linuxLink = encodeURIComponent(result.path.substring(0, result.path.lastIndexOf('/')));
                 
                 var windowsLink;
-                if(result.path.substring(0,3)=="smb")
+                if(result.path.substring(0,3)==="smb")
                     windowsLink = result.path.substring(4, result.path.length).replace(new RegExp('/', 'g'), '\\');
                 else
                     windowsLink = linuxLink;
