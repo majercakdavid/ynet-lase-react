@@ -1,5 +1,7 @@
 @import 'pages/HomePage';
 @import 'components/Searchform';
+@import 'pages/ResultPage';
+
 $font-stack:    Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -9,4 +11,5 @@ body {
   background-color: #efefef;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }

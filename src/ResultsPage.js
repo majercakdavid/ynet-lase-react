@@ -76,7 +76,7 @@ class Results extends Component {
                     <ListItem
                         leftAvatar={<Avatar icon={<FileFolder />} />}
                         rightIcon={
-                            <div>
+                            <div style={{width: '100px', margin: '8px'}}>
                                 <CopyToClipboard text={windowsLink}
                                     onCopy={this.handleOpenSnackbar}>
                                     <FlatButton label="Windows" />
@@ -85,13 +85,14 @@ class Results extends Component {
                                     onCopy={this.handleOpenSnackbar}>
                                     <FlatButton label="Linux" />
                                 </CopyToClipboard>
-                                <FlatButton
-                                    label={<ActionInfo />}
-                                    onClick={this.handleOpenDetails.bind(this, i)}
-                                    />
+
                             </div>
                         }
-                        primaryText={result.filename}
+                        primaryText={
+                            <div>
+                                {result.filename}
+                            </div>
+                        }
                         secondaryText={
                             <div>
                                 <span style={{ color: darkBlack }}>Cesta: </span>{result.path}<br />
@@ -102,6 +103,7 @@ class Results extends Component {
                                 {extension}
                             </div>
                         }
+                        onClick={this.handleOpenDetails.bind(this, i)}
                         secondaryTextLines={2}>
                         </ListItem>
                     <Dialog
@@ -132,7 +134,7 @@ class Results extends Component {
             });
         }
         return (
-            <div>
+            <div className="container">
                 <List>
                     <Subheader inset={true}>Folders</Subheader>
                     {items}
