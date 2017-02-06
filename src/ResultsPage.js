@@ -20,8 +20,9 @@ class Results extends Component {
         super();
         _this = this;
         this.state = {
-            show_details_id: -1,
-            show_snackbar: false
+            show_snackbar: false,
+            show_details: false,
+            current_details: null
         }
     }
 
@@ -29,20 +30,20 @@ class Results extends Component {
         items: PropTypes.array,
     };
 
-    handleOpenDetails(id, e, args) {
-        _this.setState({ show_details_id: id });
+    handleOpenDetails(result) {
+        _this.setState({ show_details: true, current_details: result });
     }
 
     handleCloseDetails() {
-        _this.setState({ show_details_id: -1 });
+        _this.setState({ show_details: false, current_details: null });
     }
 
     handleOpenSnackbar() {
-        _this.setState({show_snackbar:true});
+        _this.setState({ show_snackbar: true, show_details: false, current_details: null });
     }
 
-    handleCloseSnackbar(){
-        _this.setState({show_snackbar:false});
+    handleCloseSnackbar() {
+        _this.setState({ show_snackbar: false });
     }
 
     render() {
@@ -50,9 +51,9 @@ class Results extends Component {
         if (this.props.items) {
             items = this.props.items.map((result, i) => {
                 var linuxLink = encodeURIComponent(result.path.substring(0, result.path.lastIndexOf('/')));
-                
+
                 var windowsLink;
-                if(result.path.substring(0,3)==="smb")
+                if (result.path.substring(0, 3) === "smb")
                     windowsLink = result.path.substring(4, result.path.length).replace(new RegExp('/', 'g'), '\\');
                 else
                     windowsLink = linuxLink;
@@ -71,12 +72,12 @@ class Results extends Component {
                     case "dir": fileType = 'Priečinok'; break;
                     default: fileType = 'Neznáme'; break;
                 }
-                return (<div key={i}>
+                return (<div key={i + "result"}>
                     <Divider inset={true} />
                     <ListItem
-                        leftAvatar={<Avatar icon={<FileFolder />} />}
+                        leftAvatar={<Avatar icon={<FileFolder />} onClick={this.handleOpenDetails.bind(this, result)} />}
                         rightIcon={
-                            <div style={{width: '100px', margin: '8px'}}>
+                            <div style={{ width: '100px', margin: '8px' }}>
                                 <CopyToClipboard text={windowsLink}
                                     onCopy={this.handleOpenSnackbar}>
                                     <FlatButton label="Windows" />
@@ -85,7 +86,6 @@ class Results extends Component {
                                     onCopy={this.handleOpenSnackbar}>
                                     <FlatButton label="Linux" />
                                 </CopyToClipboard>
-
                             </div>
                         }
                         primaryText={
@@ -103,37 +103,63 @@ class Results extends Component {
                                 {extension}
                             </div>
                         }
-                        onClick={this.handleOpenDetails.bind(this, i)}
                         secondaryTextLines={2}
-                        innerDivStyle={{padding:'16px 102px 16px 72px'}}>
-                        </ListItem>
-                    <Dialog
-                        title="Informácie o súbore/zložke"
-                        actions={
-                            [
-                                <FlatButton
-                                    label="Zatvor"
-                                    primary={true}
-                                    keyboardFocused={true}
-                                    onClick={this.handleCloseDetails}
-                                    />,
-                            ]
-                        }
-                        modal={false}
-                        open={this.state.show_details_id === i}
-                        onRequestClose={this.handleCloseDetails}>
-                        <div>
-                            <span style={{ color: darkBlack }}>Cesta: </span>{result.path}<br />
-                            <span style={{ color: darkBlack }}>Host: </span>{result.host}<br />
-                            <span style={{ color: darkBlack }}>Online: </span>{isOnline}<br />
-                            <span style={{ color: darkBlack }}>Typ súboru: </span>{fileType}<br />
-                            {size}<br />
-                            {extension}
-                        </div>
-                    </Dialog>
+                        innerDivStyle={{ padding: '16px 102px 16px 72px' }}>
+                    </ListItem>
                 </div>
                 )
             });
+        }
+        var navigation = null;
+        if (this.props.current_page && this.props.page_count && this.props.onPageChange) {
+            navigation = [];
+            for (let i = 1; i <= this.props.page_count; i++) {
+                if (i === this.props.current_page)
+                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} />);
+                else
+                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} key={i + "page"} />);
+            }
+        }
+        var dialog = null;
+        if (this.state.current_details != null) {
+            var isOnline = this.state.current_details.online ? "Áno" : "Nie";
+            var fileType = null;
+            var size = null;
+            var extension = null;
+            switch (this.state.current_details.file_type) {
+                case "file": {
+                    fileType = 'Súbor';
+                    extension = <div><span style={{ color: darkBlack }}>Koncovka: </span>{this.state.current_details.extension}</div>;
+                    size = <div><span style={{ color: darkBlack }}>Veľkosť: </span>{this.state.current_details.size}</div>;
+                    break;
+                }
+                case "dir": fileType = 'Priečinok'; break;
+                default: fileType = 'Neznáme'; break;
+            }
+            dialog = <Dialog
+                title="Informácie o súbore/zložke"
+                actions={
+                    [
+                        <FlatButton
+                            label="Zatvor"
+                            primary={true}
+                            keyboardFocused={true}
+                            onClick={this.handleCloseDetails}
+                        />,
+                    ]
+                }
+                modal={false}
+                open={this.state.show_details}
+                onRequestClose={this.handleCloseDetails}>
+                <div>
+                    <span style={{ color: darkBlack }}>Cesta: </span>{this.state.current_details.path}<br />
+                    <span style={{ color: darkBlack }}>Host: </span>{this.state.current_details.host}<br />
+                    <span style={{ color: darkBlack }}>Online: </span>{isOnline}<br />
+                    <span style={{ color: darkBlack }}>Typ súboru: </span>{fileType}<br />
+                    {size}<br />
+                    {extension}
+                </div>
+            </Dialog>;
         }
         return (
             <div id="results">
@@ -141,13 +167,15 @@ class Results extends Component {
                     <List>
                         <Subheader inset={true}>Folders</Subheader>
                         {items}
-                        <Snackbar
-                            open={this.state.show_snackbar}
-                            message="Link skopírovany"
-                            autoHideDuration={2000}
-                            onRequestClose={this.handleCloseSnackbar}
-                            />
                     </List>
+                    {navigation}
+                    {dialog}
+                    <Snackbar
+                        open={this.state.show_snackbar}
+                        message="Link skopírovany"
+                        autoHideDuration={2000}
+                        onRequestClose={this.handleCloseSnackbar}
+                    />
                 </div>
             </div>);
     }
