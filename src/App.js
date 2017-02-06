@@ -21,14 +21,15 @@ class App extends Component {
             total_items: 0,
             items: [],
             page: "",
-            show_snackbar: false
+            show_snackbar: false,
+            snackbar_message: ""
         };
     }
 
-    _handleToggleSnackbar(showSnackbar, e)
+    _handleToggleSnackbar(showSnackbar, message, e)
     {
         if(showSnackbar)
-            _this.setState({show_snackbar: true});
+            _this.setState({show_snackbar: true, snackbar_message: message});
         else
             _this.setState({show_snackbar: false});
     }
@@ -37,7 +38,7 @@ class App extends Component {
         // Render the results only in the case that the query was not changed in a mean time while waiting for the fetch response
         if (!_this.state.is_query_empty) {
             if(JSONResult.total_items === 0)
-                this._handleToggleSnackbar(true, this);
+                this._handleToggleSnackbar(true, "Žiadne výsledky!", this);
             else
                 _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
         }
@@ -107,7 +108,7 @@ class App extends Component {
                 {display}
                 <Snackbar
                         open={this.state.show_snackbar}
-                        message="Žiadne výsledky!"
+                        message={this.state.snackbar_message}
                         autoHideDuration={2000}
                         onRequestClose={this._handleToggleSnackbar.bind(this, false)}
                         />

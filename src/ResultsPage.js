@@ -104,7 +104,8 @@ class Results extends Component {
                             </div>
                         }
                         onClick={this.handleOpenDetails.bind(this, i)}
-                        secondaryTextLines={2}>
+                        secondaryTextLines={2}
+                        innerDivStyle={{padding:'16px 102px 16px 72px'}}>
                         </ListItem>
                     <Dialog
                         title="Informácie o súbore/zložke"
@@ -114,6 +115,7 @@ class Results extends Component {
                                     label="Zatvor"
                                     primary={true}
                                     keyboardFocused={true}
+                                    onClick={this.handleCloseDetails}
                                     />,
                             ]
                         }

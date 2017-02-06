@@ -44,7 +44,7 @@ class SearchForm extends Component {
         clearTimeout(_this.liveUpdateTimeout);
         _this.liveUpdateTimeout = setTimeout(() => {
             _this.props.onChange(_this.state);
-        }, 500);
+        }, 200);
     }
 
     _handlePopOverToggle(shouldOpen, e) {
