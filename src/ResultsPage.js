@@ -136,17 +136,19 @@ class Results extends Component {
             });
         }
         return (
-            <div className="container">
-                <List>
-                    <Subheader inset={true}>Folders</Subheader>
-                    {items}
-                    <Snackbar
-                        open={this.state.show_snackbar}
-                        message="Link skopírovany"
-                        autoHideDuration={2000}
-                        onRequestClose={this.handleCloseSnackbar}
-                        />
-                </List>
+            <div id="results">
+                <div className="container">
+                    <List>
+                        <Subheader inset={true}>Folders</Subheader>
+                        {items}
+                        <Snackbar
+                            open={this.state.show_snackbar}
+                            message="Link skopírovany"
+                            autoHideDuration={2000}
+                            onRequestClose={this.handleCloseSnackbar}
+                            />
+                    </List>
+                </div>
             </div>);
     }
 }

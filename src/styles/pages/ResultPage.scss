@@ -1,15 +1,25 @@
 .container {
-  margin: 0 auto;
+  margin: -1.2rem auto 0rem auto;
   max-width: 1280px;
   width: 90%;
-  height: 100vh;
+  height: calc(100vh - 10rem);
   overflow: auto;
-
+  justify-content: center;
+  align-content: center;
 }
+
 .top-sector {
   border-bottom: 1px solid #ddd;
   width: 100%;
   padding: 1.2rem 0;
   background: #eeeeee;
-
 }
+
+#result-header {
+  height: 5rem;
+  background: #fff;
+  width: 100vw;
+  padding: 1.2rem;
+  border-bottom: 1px solid #ddd
+}
+

@@ -22,7 +22,8 @@ class App extends Component {
             items: [],
             page: "",
             show_snackbar: false,
-            snackbar_message: ""
+            snackbar_message: "",
+            searchFormId: "home"
         };
     }
 
@@ -46,10 +47,10 @@ class App extends Component {
 
     _initiateSearch(options) {
         if (options.query.length === 0) {
-            _this.setState({ total_items: 0, items: [], is_query_empty: true });
+            _this.setState({ total_items: 0, items: [], is_query_empty: true, searchFormId: "home-header" });
         } else {
             // Change state of the App component so the query is no more empty
-            _this.setState({ is_query_empty: false });
+            _this.setState({ is_query_empty: false, searchFormId: "result-header" });
             if (_this.isMock) {
                 return setTimeout(() => {
                     _this._checkAndUpdate({ total_items: 3, items: MockedResults });
@@ -92,20 +93,25 @@ class App extends Component {
         var display = <HomePage />;
         var contentClass = "content";
         var blockClass = "block";
-        if (this.state.items.length > 0) {
-            display = <ResultsPage items={this.state.items} />
-            contentClass = "";
-            blockClass = "";
+
+        if(!this.state.is_query_empty) {
+           // display = <div className="loading"></div>;
+           // if (this.state.items.length > 0) {
+
+                display = <ResultsPage items={this.state.items}/>;
+                contentClass = "";
+                blockClass = "";
+           // }
         }
         return (
-            //<Helmet title="Lase - Ynet"/>
             <div>
                 <div className={contentClass}>
-                    <div className={blockClass}>
-                        <SearchForm onChange={this._initiateSearch} />
+                    <div id={this.state.searchFormId} className={blockClass}>
+                        <SearchForm onChange={this._initiateSearch}/>
                     </div>
                 </div>;
                 {display}
+
                 <Snackbar
                         open={this.state.show_snackbar}
                         message={this.state.snackbar_message}
