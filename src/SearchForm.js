@@ -43,7 +43,7 @@ class SearchForm extends Component {
         // Wait while user is typing
         clearTimeout(_this.liveUpdateTimeout);
         _this.liveUpdateTimeout = setTimeout(() => {
-            _this.props.onChange(_this.state);
+            _this.props.onChange(_this.state, true);
         }, 200);
     }
 

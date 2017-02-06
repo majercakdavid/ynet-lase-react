@@ -22,29 +22,38 @@ class App extends Component {
             items: [],
             page: "",
             show_snackbar: false,
-            snackbar_message: ""
+            snackbar_message: "",
+            last_search_options: null,
+            current_page: 1,
+            pages_count: 0
         };
     }
 
-    _handleToggleSnackbar(showSnackbar, message, e)
-    {
-        if(showSnackbar)
-            _this.setState({show_snackbar: true, snackbar_message: message});
+    _handleToggleSnackbar(showSnackbar, message, e) {
+        if (showSnackbar)
+            _this.setState({ show_snackbar: true, snackbar_message: message });
         else
-            _this.setState({show_snackbar: false});
+            _this.setState({ show_snackbar: false });
     }
 
     _checkAndUpdate(JSONResult, callback) {
         // Render the results only in the case that the query was not changed in a mean time while waiting for the fetch response
         if (!_this.state.is_query_empty) {
-            if(JSONResult.total_items === 0)
+            if (JSONResult.total_items === 0)
                 this._handleToggleSnackbar(true, "Žiadne výsledky!", this);
             else
                 _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
         }
     }
 
-    _initiateSearch(options) {
+    _goToPage(index) {
+        if (index > 0 && index <= this.state.pages_count) {
+            this.setState({ current_page: index });
+            this._initiateSearch(this.state.last_search_options)
+        }
+    }
+
+    _initiateSearch(options, isNewSearch) {
         if (options.query.length === 0) {
             _this.setState({ total_items: 0, items: [], is_query_empty: true });
         } else {
@@ -73,6 +82,9 @@ class App extends Component {
                     .then(response => {
                         if (response.ok) {
                             response.json().then(result => {
+                                if(isNewSearch){
+                                    _this.setState({pages_count: Math.ceil(result.data.total/100), current_page: 1});
+                                }
                                 _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items }, () => {
                                     _this.lookupStarted = false;
                                 });
@@ -93,7 +105,7 @@ class App extends Component {
         var contentClass = "content";
         var blockClass = "block";
         if (this.state.items.length > 0) {
-            display = <ResultsPage items={this.state.items} />
+            display = <ResultsPage items={this.state.items} current_page={this.state.current_page} page_count={this.state.pages_count} onPageChange={this._goToPage} />
             contentClass = "";
             blockClass = "";
         }
@@ -107,11 +119,11 @@ class App extends Component {
                 </div>;
                 {display}
                 <Snackbar
-                        open={this.state.show_snackbar}
-                        message={this.state.snackbar_message}
-                        autoHideDuration={2000}
-                        onRequestClose={this._handleToggleSnackbar.bind(this, false)}
-                        />
+                    open={this.state.show_snackbar}
+                    message={this.state.snackbar_message}
+                    autoHideDuration={2000}
+                    onRequestClose={this._handleToggleSnackbar.bind(this, false)}
+                />
             </div>
         );
     }
