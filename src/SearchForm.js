@@ -2,14 +2,11 @@ import React, { Component } from 'react'
 import TextField from 'material-ui/TextField/TextField'
 import RadioButton from 'material-ui/RadioButton/RadioButton'
 import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup'
-import SelectField from 'material-ui/SelectField/SelectField'
-import MenuItem from 'material-ui/MenuItem/MenuItem'
 import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import { orange500 } from 'material-ui/styles/colors';
-import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 
 var _this;
