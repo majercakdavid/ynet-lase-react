@@ -23,7 +23,7 @@ class App extends Component {
             page: "",
             show_snackbar: false,
             snackbar_message: "",
-            searchFormId: "home"
+            searchFormId: "home",
             last_search_options: null,
             current_page: 1,
             pages_count: 0
@@ -121,10 +121,11 @@ class App extends Component {
         return (
             <div>
                 <div className={contentClass}>
+                    <div></div>
                     <div id={this.state.searchFormId} className={blockClass}>
                         <SearchForm onChange={this._initiateSearch}/>
                     </div>
-                </div>;
+                </div>
                 {display}
 
                 <Snackbar
