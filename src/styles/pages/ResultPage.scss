@@ -1,5 +1,5 @@
 .container {
-  margin: -1.2rem auto 0rem auto;
+  margin: 0rem auto;
   max-width: 1280px;
   width: 90%;
   justify-content: center;
@@ -26,5 +26,14 @@
 
 #results {
   margin-top: 9rem;
+
+  .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      margin: 0 auto;
+      padding: 3rem 0;
+  }
 }
 

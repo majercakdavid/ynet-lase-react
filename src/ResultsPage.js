@@ -15,6 +15,20 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 // Needed as the reference to this object inside event handlers
 var _this;
 
+const styles = {
+    button: {
+        cursor: 'pointer',
+        minWidth: '36px'
+    },
+    primary: {
+        cursor: 'pointer',
+        minWidth: '36px',
+        backgroundColor: '#FF8247',
+        color: '#fff'
+    }
+};
+
+
 class Results extends Component {
     constructor() {
         super();
@@ -125,9 +139,9 @@ class Results extends Component {
                 min = 1;
             for (let i = min; i <= max; i++) {
                 if (i === this.props.current_page)
-                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} />);
+                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} style={styles.primary} />);
                 else
-                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} key={i + "page"} />);
+                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} key={i + "page"} style={styles.button}/>);
             }
         }
         var dialog = null;
@@ -185,8 +199,11 @@ class Results extends Component {
                         autoHideDuration={2000}
                         onRequestClose={this.handleCloseSnackbar}
                     />
+                    <div className="pagination">
+                        {navigation}
+                    </div>
                 </div>
-                {navigation}
+
             </div>);
     }
 }
