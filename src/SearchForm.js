@@ -28,7 +28,6 @@ class SearchForm extends Component {
             file_type: "all",
             size_from: "",
             size_to: "",
-            page: 1,
             show_advanced: false,
             anchorEl: null
         };

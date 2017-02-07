@@ -113,7 +113,17 @@ class Results extends Component {
         var navigation = null;
         if (this.props.current_page && this.props.page_count && this.props.onPageChange) {
             navigation = [];
-            for (let i = 1; i <= this.props.page_count; i++) {
+            let min = this.props.current_page - 2;
+            let max = this.props.current_page + 2;
+            if (min < 1) {
+                max += 1 - min;
+                min = 1;
+            }
+            if (max > this.props.page_count)
+                min -= max - this.props.page_count;
+            if (min < 1)
+                min = 1;
+            for (let i = min; i <= max; i++) {
                 if (i === this.props.current_page)
                     navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} />);
                 else
@@ -168,7 +178,6 @@ class Results extends Component {
                         <Subheader inset={true}>Folders</Subheader>
                         {items}
                     </List>
-                    {navigation}
                     {dialog}
                     <Snackbar
                         open={this.state.show_snackbar}
@@ -177,6 +186,7 @@ class Results extends Component {
                         onRequestClose={this.handleCloseSnackbar}
                     />
                 </div>
+                {navigation}
             </div>);
     }
 }

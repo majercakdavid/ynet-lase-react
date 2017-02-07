@@ -23,7 +23,7 @@ class App extends Component {
             page: "",
             show_snackbar: false,
             snackbar_message: "",
-            searchFormId: "home"
+            searchFormId: "home",
             last_search_options: null,
             current_page: 1,
             pages_count: 0
@@ -48,9 +48,9 @@ class App extends Component {
     }
 
     _goToPage(index) {
-        if (index > 0 && index <= this.state.pages_count) {
-            this.setState({ current_page: index });
-            this._initiateSearch(this.state.last_search_options)
+        if (index > 0 && index <= _this.state.pages_count) {
+            _this.setState({ current_page: index });
+            _this._initiateSearch(_this.state.last_search_options, false);
         }
     }
 
@@ -58,6 +58,9 @@ class App extends Component {
         if (options.query.length === 0) {
             _this.setState({ total_items: 0, items: [], is_query_empty: true, searchFormId: "home-header" });
         } else {
+            if (isNewSearch) {
+                _this.setState({ current_page: 1, last_search_options: options });
+            }
             // Change state of the App component so the query is no more empty
             _this.setState({ is_query_empty: false, searchFormId: "result-header" });
             if (_this.isMock) {
@@ -79,12 +82,12 @@ class App extends Component {
                     "&file_type=" + options.file_type +
                     "&size_from=" + options.size_from +
                     "&size_to=" + options.size_to +
-                    "&page=" + options.page, requestOptions)
+                    "&page=" + _this.state.current_page, requestOptions)
                     .then(response => {
                         if (response.ok) {
                             response.json().then(result => {
-                                if(isNewSearch){
-                                    _this.setState({pages_count: Math.ceil(result.data.total/100), current_page: 1});
+                                if (isNewSearch) {
+                                    _this.setState({ pages_count: Math.ceil(result.data.total / 100) });
                                 }
                                 _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items }, () => {
                                     _this.lookupStarted = false;
@@ -107,7 +110,7 @@ class App extends Component {
         var blockClass = "block";
 
 
-        if(!this.state.is_query_empty) {
+        if (!this.state.is_query_empty) {
             // display = <div className="loading"></div>;
             // if (this.state.items.length > 0) {
 
@@ -122,7 +125,7 @@ class App extends Component {
             <div>
                 <div className={contentClass}>
                     <div id={this.state.searchFormId} className={blockClass}>
-                        <SearchForm onChange={this._initiateSearch}/>
+                        <SearchForm onChange={this._initiateSearch} />
                     </div>
                 </div>;
                 {display}
