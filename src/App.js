@@ -124,10 +124,11 @@ class App extends Component {
         return (
             <div>
                 <div className={contentClass}>
+                    <div></div>
                     <div id={this.state.searchFormId} className={blockClass}>
                         <SearchForm onChange={this._initiateSearch} />
                     </div>
-                </div>;
+                </div>
                 {display}
 
                 <Snackbar
