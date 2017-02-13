@@ -118,7 +118,7 @@ class SearchForm extends Component {
                                     label="Všetko"
                                     />
                                 <RadioButton
-                                    value="directory"
+                                    value="dir"
                                     label="Priečinky"
                                     />
                                 <RadioButton
