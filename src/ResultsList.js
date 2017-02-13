@@ -12,12 +12,6 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 var _this;
 
 export default class Results extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.items !== nextProps.items) {
-            return true;
-        }
-        return false;
-    }
 
     render() {
         var items = null;
@@ -34,17 +28,6 @@ export default class Results extends Component {
                 var isOnline = result.online ? "Áno" : "Nie";
                 var extension = null;
                 var size = null;
-                var fileType = "";
-                switch (result.file_type) {
-                    case "file": {
-                        fileType = 'Súbor';
-                        extension = <div><span style={{ color: darkBlack }}>Koncovka: </span>{result.extension}</div>;
-                        size = <div><span style={{ color: darkBlack }}>Veľkosť: </span>{result.size}</div>;
-                        break;
-                    }
-                    case "dir": fileType = 'Priečinok'; break;
-                    default: fileType = 'Neznáme'; break;
-                }
                 return (<div key={i + "result"}>
                     <Divider inset={true} />
                     <ListItem

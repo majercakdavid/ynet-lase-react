@@ -35,6 +35,13 @@ class App extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.items !== nextState.items) {
+            return true;
+        }
+        return false;
+    }
+
     _handleToggleSnackbar(showSnackbar, message, e) {
         if (showSnackbar)
             _this.setState({ show_snackbar: true, snackbar_message: message });
@@ -48,14 +55,18 @@ class App extends Component {
             if (JSONResult.total_items === 0)
                 this._handleToggleSnackbar(true, "Žiadne výsledky!", this);
             else
-                _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, callback);
+                _this.setState({ total_items: JSONResult.total_items, items: JSONResult.items }, _this.forceUpdate());
         }
     }
 
     _goToPage(index) {
         if (index > 0 && index <= _this.state.pages_count) {
-            _this.setState({ current_page: index });
-            _this._initiateSearch(_this.state.last_search_options, false);
+            var prevPage = _this.state.current_page;
+            _this.setState({ current_page: index }, function () {
+                if (index !== prevPage) {
+                    _this._initiateSearch(_this.state.last_search_options, false);
+                }
+            });
         }
     }
 
@@ -94,9 +105,7 @@ class App extends Component {
                                 if (isNewSearch) {
                                     _this.setState({ pages_count: Math.ceil(result.data.total / 100) });
                                 }
-                                _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items }, () => {
-                                    _this.lookupStarted = false;
-                                });
+                                _this._checkAndUpdate({ total_items: result.data.total, items: result.data.items });
                             });
                         } else {
                             console.log('Network response was not ok.');
@@ -115,7 +124,7 @@ class App extends Component {
         var blockClass = "block";
 
 
-        if (!this.state.is_query_empty) {
+        if (!this.state.is_query_empty && this.state.items.length > 0) {
             // display = <div className="loading"></div>;
             // if (this.state.items.length > 0) {
 

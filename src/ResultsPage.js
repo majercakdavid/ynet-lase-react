@@ -73,9 +73,9 @@ class Results extends Component {
                 min = 1;
             for (let i = min; i <= max; i++) {
                 if (i === this.props.current_page)
-                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} style={styles.primary} />);
+                    navigation.push(<FlatButton label={i} onTouchTap={this.props.onPageChange.bind(null, i)} primary={true} key={i + "page"} style={styles.primary} />);
                 else
-                    navigation.push(<FlatButton label={i} onClick={this.props.onPageChange.bind(null, i)} key={i + "page"} style={styles.button}/>);
+                    navigation.push(<FlatButton label={i} onTouchTap={this.props.onPageChange.bind(null, i)} key={i + "page"} style={styles.button} />);
             }
         }
         var dialog = null;
@@ -140,7 +140,6 @@ class Results extends Component {
                         {navigation}
                     </div>
                 </div>
-
             </div>);
     }
 }
