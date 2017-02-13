@@ -7,9 +7,6 @@ import MockedResults from './mock_service/MockedResults';
 import Snackbar from 'material-ui/Snackbar';
 import './styles/styles.scss';
 
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import Paper from 'material-ui/Paper';
-
 
 
 // Needed as the reference to this object inside event handlers
