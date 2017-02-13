@@ -7,6 +7,11 @@ import MockedResults from './mock_service/MockedResults';
 import Snackbar from 'material-ui/Snackbar';
 import './styles/styles.scss';
 
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import Paper from 'material-ui/Paper';
+
+
+
 // Needed as the reference to this object inside event handlers
 var _this;
 
@@ -129,14 +134,18 @@ class App extends Component {
                         <SearchForm onChange={this._initiateSearch} />
                     </div>
                 </div>
-                {display}
-
+                <div>
+                    {display}
+                </div>
                 <Snackbar
                     open={this.state.show_snackbar}
                     message={this.state.snackbar_message}
                     autoHideDuration={2000}
                     onRequestClose={this._handleToggleSnackbar.bind(this, false)}
                 />
+                <div className="footer">
+                    <a href="https://goo.gl/forms/QVIoFnUT8HHCliau1" target="_blank">Aký je tvoj názor?</a> | <a href="https://goo.gl/forms/wIpxqiaSnBn0cryJ3" target="_blank">Našiel si bug?</a>
+                </div>
             </div>
         );
     }

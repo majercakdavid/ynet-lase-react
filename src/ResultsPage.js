@@ -7,6 +7,8 @@ import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton/FlatButton';
 
+//var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+
 // Needed as the reference to this object inside event handlers
 var _this;
 
@@ -121,10 +123,12 @@ class Results extends Component {
         return (
             <div id="results">
                 <div className="container">
+                    /* Animacia coming soon <ReactCSSTransitionGroup transitionName = "example" transitionEnterTimeout = {500} transitionLeaveTimeout = {500}>*/
                     <List>
                         <Subheader inset={true}>Folders</Subheader>
                         <ResultsList items={this.props.items} handleOpenDetails={this.handleOpenDetails} handleOpenSnackbar={this.handleOpenSnackbar} />
                     </List>
+                   /* </ReactCSSTransitionGroup>*/
                     {dialog}
                     <Snackbar
                         open={this.state.show_snackbar}
