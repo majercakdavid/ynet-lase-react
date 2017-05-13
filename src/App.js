@@ -150,7 +150,7 @@ class App extends Component {
                     onRequestClose={this._handleToggleSnackbar.bind(this, false)}
                 />
                 <div className="footer">
-                    <a href="https://goo.gl/forms/QVIoFnUT8HHCliau1" target="_blank">Aký je tvoj názor?</a> | <a href="https://goo.gl/forms/wIpxqiaSnBn0cryJ3" target="_blank">Našiel si bug?</a>
+                    <a href="http://lase.ynet.sk:8080">Lase 2</a> | <a href="https://goo.gl/forms/QVIoFnUT8HHCliau1" target="_blank">Aký je tvoj názor?</a> | <a href="https://goo.gl/forms/wIpxqiaSnBn0cryJ3" target="_blank">Našiel si bug?</a>
                 </div>
             </div>
         );

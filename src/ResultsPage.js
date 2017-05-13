@@ -65,8 +65,10 @@ class Results extends Component {
                 max += 1 - min;
                 min = 1;
             }
-            if (max > this.props.page_count)
+            if (max > this.props.page_count){
                 min -= max - this.props.page_count;
+                max = this.props.page_count;
+            }
             if (min < 1)
                 min = 1;
             for (let i = min; i <= max; i++) {

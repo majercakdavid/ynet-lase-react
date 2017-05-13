@@ -17,13 +17,13 @@ export default class Results extends Component {
         var items = null;
         if (this.props.items.length > 0) {
             items = this.props.items.map((result, i) => {
-                var linuxLink = encodeURIComponent(result.path.substring(0, result.path.lastIndexOf('/')));
+                var linuxLink = result.path.substring(0, result.path.lastIndexOf('/'));
 
                 var windowsLink;
                 if (result.path.substring(0, 3) === "smb")
                     windowsLink = result.path.substring(4, result.path.length).replace(new RegExp('/', 'g'), '\\');
                 else
-                    windowsLink = linuxLink;
+                    windowsLink = encodeURIComponent(result.path.substring(0, result.path.lastIndexOf('/')));;
 
                 var isOnline = result.online ? "Áno" : "Nie";
                 var extension = null;
